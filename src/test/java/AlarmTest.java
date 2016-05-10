@@ -1,6 +1,6 @@
 import org.junit.Test;
 import tddmicroexercises.tirepressuremonitoringsystem.Alarm;
-import tddmicroexercises.tirepressuremonitoringsystem.Sensor;
+import tddmicroexercises.tirepressuremonitoringsystem.PressureSensor;
 
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -9,36 +9,36 @@ import static org.hamcrest.core.Is.is;
 public class AlarmTest {
     @Test
     public void alarm_is_on_when_pressure_is_too_low() {
-        Sensor sensor = sensorWithPressure(5.0);
+        PressureSensor pressureSensor = sensorWithPressure(5.0);
 
 
-        Alarm alarm = new Alarm(sensor, 10, 20);
+        Alarm alarm = new Alarm(pressureSensor, 10, 20);
         alarm.check();
         assertThat(alarm.isAlarmOn(), is(true));
     }
 
     @Test
     public void alarm_is_on_when_pressure_is_too_high() {
-        Sensor sensor = sensorWithPressure(50.0);
+        PressureSensor pressureSensor = sensorWithPressure(50.0);
 
 
-        Alarm alarm = new Alarm(sensor, 20, 40);
+        Alarm alarm = new Alarm(pressureSensor, 20, 40);
         alarm.check();
         assertThat(alarm.isAlarmOn(), is(true));
     }
 
     @Test
     public void alarm_is_of_when_pressure_is_inside_range() {
-        Sensor sensor = sensorWithPressure(20.0);
+        PressureSensor pressureSensor = sensorWithPressure(20.0);
 
-        Alarm alarm = new Alarm(sensor, 19, 21);
+        Alarm alarm = new Alarm(pressureSensor, 19, 21);
         alarm.check();
         assertThat(alarm.isAlarmOn(), is(false));
     }
 
-    private Sensor sensorWithPressure(double pressure) {
-        Sensor sensor = mock(Sensor.class);
-        doReturn(pressure).when(sensor).popNextPressurePsiValue();
-        return sensor;
+    private PressureSensor sensorWithPressure(double pressure) {
+        PressureSensor pressureSensor = mock(PressureSensor.class);
+        doReturn(pressure).when(pressureSensor).probeValue();
+        return pressureSensor;
     }
 }

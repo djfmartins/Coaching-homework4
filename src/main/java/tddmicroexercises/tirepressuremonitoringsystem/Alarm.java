@@ -10,7 +10,7 @@ public class Alarm {
     private boolean alarmOn = false;
 
     public Alarm() {
-        this.sensor = new Sensor();
+        this.sensor = new PressureSensor();
         this.range = new Range(LowPressureThreshold, HighPressureThreshold);
     }
 
@@ -20,13 +20,13 @@ public class Alarm {
     }
 
     public void check() {
-        double psiPressureValue = obtainPressureValue();
+        double probeValue = probeValue();
 
-        activateAlarm(psiPressureValue);
+        activateAlarm(probeValue);
     }
 
-    private void activateAlarm(double psiPressureValue) {
-        if (!range.contains(psiPressureValue)) {
+    private void activateAlarm(double probeValue) {
+        if (!range.contains(probeValue)) {
             alarmOn = true;
         }
     }
@@ -35,7 +35,7 @@ public class Alarm {
         return alarmOn;
     }
 
-    protected double obtainPressureValue() {
-        return sensor.popNextPressurePsiValue();
+    protected double probeValue() {
+        return sensor.probeValue();
     }
 }
