@@ -9,7 +9,7 @@ public class Alarm {
     private boolean alarmOn = false;
 
     public void check() {
-        double psiPressureValue = sensor.popNextPressurePsiValue();
+        double psiPressureValue = obtainPressureValue();
 
         if (psiPressureValue < LowPressureThreshold || HighPressureThreshold < psiPressureValue) {
             alarmOn = true;
@@ -18,5 +18,9 @@ public class Alarm {
 
     public boolean isAlarmOn() {
         return alarmOn;
+    }
+
+    protected double obtainPressureValue() {
+        return sensor.popNextPressurePsiValue();
     }
 }
